@@ -4,7 +4,11 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - mvn clean install
+      - mvn test
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - mvn package
 artifacts:
   files:
-    - target/hello-app-1.0-SNAPSHOT.jar
+    - target/hello-app-1.0-SNAPSHOT.war
