@@ -5,6 +5,3 @@ phases:
     commands:
       - echo Build started on `date`
       - mvn clean install
-artifacts:
-  files:
-    - hello-app-1.0-SNAPSHOT.war
