@@ -11,4 +11,4 @@ phases:
       - mvn package
 artifacts:
   files:
-    - hello-app-1.0-SNAPSHOT.war
+    - test_build/war/hello-app-1.0-SNAPSHOT.war
