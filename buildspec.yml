@@ -7,4 +7,4 @@ phases:
       - mvn clean install
 artifacts:
   files:
-    - test_build/war/hello-app-1.0-SNAPSHOT.war
+    - hello-app-1.0-SNAPSHOT.war
