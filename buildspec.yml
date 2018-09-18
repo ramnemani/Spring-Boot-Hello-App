@@ -5,3 +5,6 @@ phases:
     commands:
       - echo Build started on `date`
       - mvn clean install
+artifacts:
+  files:
+    - target/Spring-Boot-Hello-App-0.0.1-SNAPSHOT.war
