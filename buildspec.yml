@@ -5,7 +5,10 @@ phases:
     commands:
       - echo Build started on `date`
       - mvn clean install
+  post_build:
+    commands:
+      - printf '[{"name":"hello-app","imageUri":"337226440425.dkr.ecr.us-west-2.amazonaws.com/hello-app"}]' > imagedefinitions.json
 artifacts:
   files:
     - target/Spring-Boot-Hello-App-0.0.1-SNAPSHOT.war
-    printf '[{"name":"hello-app","imageUri":"337226440425.dkr.ecr.us-west-2.amazonaws.com/hello-app"}]' > imagedefinitions.json
+    - imagedefinitions.json
