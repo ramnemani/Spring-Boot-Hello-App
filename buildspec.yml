@@ -10,5 +10,5 @@ phases:
       - printf '[{"name":"demo-container","imageUri":"337226440425.dkr.ecr.us-west-2.amazonaws.com/hello-app"}]' > imagedefinitions.json
 artifacts:
   files:
-    - Spring-Boot-Hello-App-0.0.1-SNAPSHOT.war
+    - target/Spring-Boot-Hello-App-0.0.1-SNAPSHOT.war
     - imagedefinitions.json
