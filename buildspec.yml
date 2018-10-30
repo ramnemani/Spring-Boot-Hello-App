@@ -8,6 +8,9 @@ env:
     AWS_ACCOUNT_ID: "337226440425"
     REPO_URI: "337226440425.dkr.ecr.us-west-2.amazonaws.com/docker_demo"
 phases:
+  install:
+    commands:
+      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay&
   pre_build:
     commands:
       - echo Logging in to Amazon ECR…
