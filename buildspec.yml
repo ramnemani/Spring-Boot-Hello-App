@@ -17,14 +17,13 @@ phases:
     commands:
       - mvn clean install
       - echo Building the Docker image…
-      - . /root/ev.sh
+      - . /root/ev.sh $AWS_DEFAULT_REGION $IMAGE_REPO_NAME
       - echo $REPO_URI
       - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
       - printf '[{"name":"docker-demo","imageUri":"%s"}]' $REPO_URI:$IMAGE_TAG > imagedefinitions.json
   post_build:
     commands:
-      - . /root/ev.sh
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
 artifacts:
     files:
