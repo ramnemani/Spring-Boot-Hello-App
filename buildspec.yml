@@ -6,25 +6,25 @@ env:
 phases:
   install:
     commands:
+      - echo entering install stage
       - nohup /usr/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay&
   pre_build:
     commands:
       - echo Logging in to Amazon ECR…
-      - echo $IMAGE_REPO_NAME
-      - echo $AWS_DEFAULT_REGION
-      - echo $AWS_ACCOUNT_ID
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
   build:
     commands:
       - mvn clean install
       - echo Building the Docker image…
+      - echo $AWS_ACCOUNT_ID
+      - echo $AWS_DEFAULT_REGION
+      - echo $IMAGE_REPO_NAME
+      - echo $IMAGE_TAG
       - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
   post_build:
     commands:
+      - echo entering post_build stage
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-artifacts:
-    files:
-      - target/Spring-Boot-Hello-App-0.0.1-SNAPSHOT.war
-      - imagedefinitions.json
-      - kubeconfig.demoeks-cluster.yaml
+      - kubectl run demo-app --image=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG --port=$NODE_PORT --kubeconfig=$KUBECONFIG
+      - kubectl expose deployment demo-app --type=LoadBalancer --port=$NODE_PORT --target-port=$TARGET_PORT --kubeconfig=$KUBECONFIG    
