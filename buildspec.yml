@@ -3,10 +3,8 @@ version: 0.2
 env:
   variables:
     AWS_DEFAULT_REGION: "us-west-2"
-    IMAGE_REPO_NAME: "docker_demo"
+    IMAGE_REPO_NAME: "rkntest1"
     IMAGE_TAG: "latest"
-    AWS_ACCOUNT_ID: "337226440425"
-    REPO_URI: "337226440425.dkr.ecr.us-west-2.amazonaws.com/docker_demo"
 phases:
   install:
     commands:
@@ -19,14 +17,14 @@ phases:
     commands:
       - mvn clean install
       - echo Building the Docker image…
+      - . /root/ev.sh
       - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
       - printf '[{"name":"docker-demo","imageUri":"%s"}]' $REPO_URI:$IMAGE_TAG > imagedefinitions.json
   post_build:
     commands:
+      - . /root/ev.sh
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-      - kubectl run demo-app --image=337226440425.dkr.ecr.us-west-2.amazonaws.com/docker_demo:latest --port=8080 --kubeconfig=/root/kubeconfig.demoeks-cluster.yaml
-      - kubectl expose deployment demo-app --type=LoadBalancer --port=8080 --target-port=8080 --kubeconfig=/root/kubeconfig.demoeks-cluster.yaml    
 artifacts:
     files:
       - target/Spring-Boot-Hello-App-0.0.1-SNAPSHOT.war
