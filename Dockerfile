@@ -12,7 +12,7 @@ From tomcat:8-jre8
 #ADD context.xml /usr/local/tomcat/webapps/manager/META-INF/context.xml
 
 # Adding tomcat user file with custom password
-#ADD tomcat-users.xml /usr/local/tomcat/conf/
+ADD tomcat-users.xml /usr/local/tomcat/conf/
 
 # Adding Spring Boot WAR
 COPY target/Spring-Boot-Hello-App-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/
