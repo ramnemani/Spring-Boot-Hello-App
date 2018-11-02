@@ -9,7 +9,7 @@ From tomcat:8-jre8
 #ADD WebClient.properties /etc/ 
 #ADD yourwarfile.war /usr/local/tomcat/webapps/ 
 # Adding context file to allow access to admin console remotely
-#ADD context.xml /usr/local/tomcat/webapps/manager/META-INF/context.xml
+ADD context.xml /usr/local/tomcat/webapps/manager/META-INF/context.xml
 
 # Adding tomcat user file with custom password
 ADD tomcat-users.xml /usr/local/tomcat/conf/
