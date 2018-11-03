@@ -15,7 +15,7 @@ ADD context.xml /usr/local/tomcat/webapps/manager/META-INF/context.xml
 ADD tomcat-users.xml /usr/local/tomcat/conf/
 
 # Adding Spring Boot WAR
-COPY target/Spring-Boot-Hello-App-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/
+COPY target/Spring-Boot-Hello-App-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/app.war
 
 # Adding shell script to execute DB environment file
 #ADD env.sh /usr/local/bin/env.sh
