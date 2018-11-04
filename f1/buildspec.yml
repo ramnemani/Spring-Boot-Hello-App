@@ -1,0 +1,24 @@
+version: 0.2
+
+env:
+  variables:
+    IMAGE_TAG: "latest"
+phases:
+  install:
+    commands:
+      - echo entering install stage
+      - nohup /usr/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay&
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR…
+      - echo $AWS_ACCOUNT_ID
+      - echo $AWS_DEFAULT_REGION
+      - echo $IMAGE_REPO_NAME
+      - echo $IMAGE_TAG
+      - echo $KUBECONFIG 
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+  build:
+    commands:
+      - kubectl run demo-app --image= $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG --port=8080 --kubeconfig=$KUBECONFIG
+      - kubectl expose deployment demo-app --type=LoadBalancer --port=8080 --target-port=8080 --kubeconfig=$KUBECONFIG    
+      
