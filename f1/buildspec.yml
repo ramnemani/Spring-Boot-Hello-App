@@ -20,5 +20,10 @@ phases:
   build:
     commands:
       - kubectl run demo-app --image= $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG --port=8080 --kubeconfig=$KUBECONFIG
-      - kubectl expose deployment demo-app --type=LoadBalancer --port=8080 --target-port=8080 --kubeconfig=$KUBECONFIG    
+      - kubectl expose deployment demo-app --type=LoadBalancer --port=8080 --target-port=8080 --kubeconfig=$KUBECONFIG 
+      - kubectl get svc
+      - kubectl describe services demo-app
+      - kubectl get pods
+      - kubectl get nodes
+
       
